@@ -1,0 +1,27 @@
+{
+  "appApp": {
+    "photo": {
+      "home": {
+        "title": "Photos",
+        "createLabel": "Crear nuevo Photo",
+        "createOrEditLabel": "Crear o editar Photo",
+        "notFound": "Ningún Photos encontrado"
+      },
+      "created": "Un nuevo Photo ha sido creado con el identificador {{ param }}",
+      "updated": "Un Photo ha sido actualizado con el identificador {{ param }}",
+      "deleted": "Un Photo ha sido eliminado con el identificador {{ param }}",
+      "delete": {
+        "question": "¿Seguro que quiere eliminar Photo {{ id }}?"
+      },
+      "detail": {
+        "title": "Photo"
+      },
+      "title": "Title",
+      "description": "Description",
+      "image": "Image",
+      "taken": "Taken",
+      "album": "Album",
+      "tag": "Tag"
+    }
+  }
+}

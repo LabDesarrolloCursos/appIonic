@@ -1,0 +1,78 @@
+<div>
+    <h2 id="page-heading">
+        <span jhiTranslate="appApp.photo.home.title">Photos</span>
+
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-photo" [routerLink]="['/photo/new']">
+            <fa-icon icon="plus"></fa-icon>
+            <span  jhiTranslate="appApp.photo.home.createLabel">
+            Create a new Photo
+            </span>
+        </button>
+    </h2>
+
+    <jhi-alert-error></jhi-alert-error>
+
+    <jhi-alert></jhi-alert>
+
+    <div class="alert alert-warning" id="no-result" *ngIf="photos?.length === 0">
+        <span jhiTranslate="appApp.photo.home.notFound">No photos found</span>
+    </div>
+
+    <div class="table-responsive" id="entities" *ngIf="photos?.length > 0">
+        <table class="table table-striped" aria-describedby="page-heading">
+            <thead>
+                <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="reset.bind(this)">
+                    <th scope="col"  jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="title"><span jhiTranslate="appApp.photo.title">Title</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="description"><span jhiTranslate="appApp.photo.description">Description</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="image"><span jhiTranslate="appApp.photo.image">Image</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="taken"><span jhiTranslate="appApp.photo.taken">Taken</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="album.title"><span jhiTranslate="appApp.photo.album">Album</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
+                <tr *ngFor="let photo of photos ;trackBy: trackId">
+                    <td><a [routerLink]="['/photo', photo.id, 'view']">{{ photo.id }}</a></td>
+                    <td>{{ photo.title }}</td>
+                    <td>{{ photo.description }}</td>
+                    <td>
+                        <a *ngIf="photo.image" (click)="openFile(photo.imageContentType, photo.image)">
+                            <img [src]="'data:' + photo.imageContentType + ';base64,' + photo.image" style="max-height: 30px;" alt="photo image"/>
+                        </a>
+                        <span *ngIf="photo.image">{{ photo.imageContentType }}, {{ byteSize(photo.image) }}</span>
+                    </td>
+                    <td>{{ photo.taken | date:'medium' }}</td>
+                    <td>
+                        <div *ngIf="photo.album">
+                            <a [routerLink]="['/album', photo.album?.id, 'view']" >{{ photo.album?.title }}</a>
+                        </div>
+                    </td>
+                    <td class="text-right">
+                        <div class="btn-group">
+                            <button type="submit"
+                                    [routerLink]="['/photo', photo.id, 'view']"
+                                    class="btn btn-info btn-sm">
+                                <fa-icon icon="eye"></fa-icon>
+                                <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+                            </button>
+
+                            <button type="submit"
+                                    [routerLink]="['/photo', photo.id, 'edit']"
+                                    class="btn btn-primary btn-sm">
+                                <fa-icon icon="pencil-alt"></fa-icon>
+                                <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                            </button>
+
+                            <button type="submit" (click)="delete(photo)"
+                                    class="btn btn-danger btn-sm">
+                                <fa-icon icon="times"></fa-icon>
+                                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
