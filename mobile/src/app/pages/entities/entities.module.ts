@@ -15,6 +15,18 @@ const routes: Routes = [
       authorities: ['ROLE_USER']
     },
     canActivate: [UserRouteAccessService]
+  },
+  {
+    path: 'album',
+    loadChildren: './album/album.module#AlbumPageModule'
+  }
+  , {
+    path: 'photo',
+    loadChildren: './photo/photo.module#PhotoPageModule'
+  }
+  , {
+    path: 'tag',
+    loadChildren: './tag/tag.module#TagPageModule'
   }
   /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
 ];
